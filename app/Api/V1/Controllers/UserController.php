@@ -49,4 +49,8 @@ class UserController extends Controller
 
         return $fractal->createData($user)->toArray();
     }
+    public function user()
+    {
+        return response()->json(request()->user());
+    }
 }

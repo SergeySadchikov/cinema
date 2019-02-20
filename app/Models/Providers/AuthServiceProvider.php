@@ -21,6 +21,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Passport::withoutCookieSerialization();
         $this->registerPolicies();
 
         Passport::routes(

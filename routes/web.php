@@ -11,6 +11,5 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::resource('/halls', 'App\Http\Controllers\HallController@index');
+

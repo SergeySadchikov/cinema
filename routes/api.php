@@ -40,6 +40,12 @@ $api->version('v1', ['middleware' => 'api'], function ($api) {
             'uses' => 'App\\Api\\V1\\Controllers\\ForgotPasswordController@sendResetEmail',
         ]);
         $api->post('reset', 'App\\Api\\V1\\Controllers\\ResetPasswordController@resetPassword');
+
+    });
+
+    //hall route
+    $api->version('v1', function ($api) {
+        $api->get('halls', 'App\\Http\\Controllers\\HallController@index');
     });
 
     // Protected routes
@@ -49,7 +55,9 @@ $api->version('v1', ['middleware' => 'api'], function ($api) {
                 'message' => 'Access to protected resources granted! You are seeing this text as you provided the token correctly.',
             ]);
         });
-
+        $api->get('user', [
+            'uses' => 'App\\Api\\V1\\Controllers\\UserController@user',
+        ]);
         $api->get('users', [
             'as' => 'users.index',
             'uses' => 'App\\Api\\V1\\Controllers\\UserController@index',
@@ -59,5 +67,26 @@ $api->version('v1', ['middleware' => 'api'], function ($api) {
             'as' => 'users.show',
             'uses' => 'App\\Api\\V1\\Controllers\\UserController@show',
         ]);
+    });
+
+    //Admin protected group
+    $api->group(['middleware' => ['auth:api', 'role'], 'prefix' => 'admin'], function ($api) {
+        $api->get('/', [
+            'as' => 'admin.index',
+            'uses' => 'App\Http\Controllers\Admin\\AdminController@index'
+        ]);
+        $api->get('/hall/create', [
+            'as' => 'hall.create',
+            'uses' => 'App\\Http\\Controllers\\HallController@create'
+        ]);
+        $api->get('/hall/create', [
+            'as' => 'hall.create',
+            'uses' => 'App\\Http\\Controllers\\HallController@create'
+        ]);
+        $api->delete('hall/{id}', [
+            'as' => 'hall.destroy',
+            'uses' => 'App\\Http\\Controllers\\HallController@destroy'
+        ]);
+        
     });
 });
